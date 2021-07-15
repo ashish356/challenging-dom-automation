@@ -1,13 +1,13 @@
 package com.expelo.challengingdom.automation.stepDefinitions;
 
+import com.expelo.challengingdom.automation.constants.Constants;
 import com.expelo.challengingdom.automation.pages.ChallengingDomPage;
 import com.expelo.challengingdom.automation.utils.Generic;
+import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -17,13 +17,10 @@ import java.util.concurrent.TimeUnit;
 
 public class ChallengingDomSteps extends Generic
 {
+
     String navyButtonTextBeforeClick;
     String redButtonTextBeforeClick;
     String greenButtonTextBeforeClick;
-    String navyButtonTextAfterClick;
-    String redButtonTextAfterClick;
-    String greenButtonTextAfterClick;
-
 
     @Given("application is launched")
     public void application_is_launched() {
@@ -43,9 +40,7 @@ public class ChallengingDomSteps extends Generic
         driver=new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
-        driver.get("https://the-internet.herokuapp.com/challenging_dom");
-
-
+        driver.get(Constants.CHALLENGING_DOM_URL);
 
     }
 
@@ -62,34 +57,7 @@ public class ChallengingDomSteps extends Generic
         }
     }
 
-    protected  void highlightField(By object)
-    {
-        JavascriptExecutor javascriptExecutor=(JavascriptExecutor) driver;
-        WebElement element=driver.findElement(object);
-        javascriptExecutor.executeScript("arguments[0].style.border='4px groove green'",element );
-        try
-        {
-            Thread.sleep(1000);
-        }catch (InterruptedException e)
-        {
-            throw new RuntimeException(e);
-        }
-        javascriptExecutor.executeScript("arguments[0].style.border=''",element);
-    }
 
-    protected  void highlightField(WebElement webElement)
-    {
-        JavascriptExecutor javascriptExecutor=(JavascriptExecutor) driver;
-        javascriptExecutor.executeScript("arguments[0].style.border='4px groove green'",webElement );
-        try
-        {
-            Thread.sleep(1000);
-        }catch (InterruptedException e)
-        {
-            throw new RuntimeException(e);
-        }
-        javascriptExecutor.executeScript("arguments[0].style.border=''",webElement);
-    }
 
     @Then("user should see all the three buttons")
     public void user_should_see_all_the_three_buttons() {
@@ -100,19 +68,7 @@ public class ChallengingDomSteps extends Generic
 
     }
 
-    public boolean validateButton(By buttonLocator)
-    {
-        highlightField(buttonLocator);
-        return driver.findElement(buttonLocator).isDisplayed();
 
-    }
-
-    public boolean validateElement(WebElement webElement)
-    {
-        highlightField(webElement);
-        return webElement.isDisplayed();
-
-    }
 
     @Then("user should click on the navy Button")
     public void user_should_click_on_the_navy_Button() throws InterruptedException {
@@ -138,25 +94,18 @@ public class ChallengingDomSteps extends Generic
 
     }
 
-    public String getTextOfTheElement(By object)
-    {
-        return driver.findElement(object).getText();
-    }
 
 
     @Then("text should change for each button")
     public void text_should_change_for_each_button() {
 
         Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.navyButton),navyButtonTextBeforeClick));
-        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.redButton),redButtonTextAfterClick));
-        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.greenButton),greenButtonTextAfterClick));
+        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.redButton),redButtonTextBeforeClick));
+        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.greenButton),greenButtonTextBeforeClick));
 
     }
 
-    public boolean validateText(String textValue1, String textValue2 )
-    {
-        return textValue1 != textValue2;
-    }
+
 
     @Then("answer value should get changed")
     public void answer_value_should_get_changed() {
@@ -179,13 +128,13 @@ public class ChallengingDomSteps extends Generic
 
         try {
 
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.loremText, "Lorem"));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.ipsumText, "Ipsum"));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.dolarText, "Dolor"));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.sitText, "Sit"));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.ametText, "Amet"));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.diceretText, "Diceret"));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.actionText, "Action"));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.loremText, Constants.LOREM));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.ipsumText, Constants.IPSUM));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.dolarText, Constants.DOLOR));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.sitText, Constants.SIT));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.ametText, Constants.AMET));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.diceretText, Constants.DICERET));
+            Assert.assertTrue(validateHeaderText(ChallengingDomPage.actionText, Constants.ACTION));
         }
         catch (Exception e)
         {
@@ -193,11 +142,7 @@ public class ChallengingDomSteps extends Generic
         }
     }
 
-    public boolean validateHeaderText(By object, String textValue)
-    {
-        highlightField(object);
-        return driver.findElement(object).getText().equals(textValue);
-    }
+
 
 
     @Then("user should see ten rows of data in the table")
@@ -253,10 +198,11 @@ public class ChallengingDomSteps extends Generic
 
     }
 
-    public void click(By object)
+    @After
+    public void teardown()
     {
-        highlightField(object);
-        driver.findElement(object).click();
+        driver.quit();
+
     }
 
 }
