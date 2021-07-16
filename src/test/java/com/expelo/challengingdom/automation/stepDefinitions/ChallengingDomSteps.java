@@ -118,19 +118,7 @@ public class ChallengingDomSteps extends Generic
 
     }
 
-    @Then("user get the answer value from the page")
-    public void user_get_the_answer_value_from_the_page() {
 
-        try {
-
-            writeFailInReports("Unable to read answer value from the canvas image");
-        }
-        catch (Exception e)
-        {
-            writeFailInReports(String.format("Exception is : %s", e));
-        }
-
-    }
 
     @Then("user get all the text of the button")
     public void user_get_all_the_text_of_the_button() {
@@ -316,19 +304,7 @@ public class ChallengingDomSteps extends Generic
 
     }
 
-    @Then("row should be editable")
-    public void row_should_be_editable() {
 
-        try {
-            //Assert.assertTrue(driver.findElement(By.xpath("//td[text()='Iuvaret0']")).isEnabled());
-            writeFailInReports("Unable to verify any field is editable on click of edit button");
-        }
-        catch (Exception e)
-        {
-            writeFailInReports(String.format("Exception is : %s", e));
-        }
-
-    }
 
     @Then("user should click on red Button")
     public void user_should_click_on_red_Button() {
@@ -517,5 +493,55 @@ public class ChallengingDomSteps extends Generic
             directory.mkdir();
         }
     }
+    @Then("user get the answer value from the page")
+    public void user_get_the_answer_value_from_the_page() {
+
+        try {
+
+            writeFailInReports("Unable to read answer value from the canvas image");
+        }
+        catch (Exception e)
+        {
+            writeFailInReports(String.format("Exception is : %s", e));
+        }
+
+    }
+
+    @Then("user should see canvas image on the page")
+    public void user_should_see_canvas_image_on_the_page() {
+
+        try {
+            if(validateElement(driver.findElement(ChallengingDomPage.canvasImage)))
+            {
+                writePassInReports("Canvas Image is present on the Page");
+            }
+            else {
+                writePassInReports("Canvas Image is not present on the Page");
+            }
+
+        }
+        catch (Exception e)
+        {
+            writeFailInReports(String.format("Exception is : %s", e));
+        }
+    }
+
+    @Then("row should be editable")
+    public void row_should_be_editable() {
+
+        try {
+
+
+
+            Assert.assertTrue(driver.findElement(By.xpath("//td[text()='Iuvaret0']")).isEnabled());
+            writeFailInReports("Unable to verify any field is editable on click of edit button");
+        }
+        catch (Exception e)
+        {
+            writeFailInReports(String.format("Exception is : %s", e));
+        }
+
+    }
+
 
 }

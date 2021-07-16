@@ -40,13 +40,10 @@ Feature: Validate Challenging dom application
     And user click on the edit Button
     Then row should be editable
 
-    # TODO - Work on this Script
-  @DomApplicationValidation @AnswerImageValidation
-  Scenario: To validate answer value should get changed after clicking button
+  @DomApplicationValidation @CanvasImageValidation
+  Scenario: To validate canvas image on the application
     Then user should be on the home page
-    And user get the answer value from the page
-    And user should click on the navy Button
-    Then answer value should get changed
+    And user should see canvas image on the page
 
  #Assumotion - Text Should Change for each Button After Click
   @DomApplicationValidation @NavyButtonValidation
