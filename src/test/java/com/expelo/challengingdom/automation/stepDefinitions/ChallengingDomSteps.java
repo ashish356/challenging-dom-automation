@@ -511,7 +511,6 @@ public class ChallengingDomSteps extends Generic
     public void user_should_see_canvas_image_on_the_page() {
 
         try {
-
             if(validateElement(driver.findElement(ChallengingDomPage.canvasImage)))
             {
                 writePassInReports("Canvas Image is present on the Page");
