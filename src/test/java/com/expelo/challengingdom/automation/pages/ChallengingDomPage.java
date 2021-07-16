@@ -22,5 +22,10 @@ public class ChallengingDomPage
     public static final By editLink=By.xpath("//a[text()='edit']");
     public static final By deleteLink=By.xpath("//a[text()='delete']");
 
+    public static final By forkMeOnGithubLink=By.xpath("//img[@alt='Fork me on GitHub']");
+    public static final By footerSeleniumLink=By.xpath("//a[text()='Elemental Selenium']");
+    public static final By footerText=By.xpath("//div[text()='Powered by ']");
+
+
 
 }

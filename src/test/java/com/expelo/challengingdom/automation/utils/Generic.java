@@ -2,7 +2,7 @@ package com.expelo.challengingdom.automation.utils;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
-import gherkin.ast.Scenario;
+import cucumber.api.Scenario;
 import javafx.scene.Scene;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 public class Generic {
 
     public static WebDriver driver;
+    public static Scenario scenario;
 
     public void click(By object)
     {
@@ -78,5 +79,16 @@ public class Generic {
         javascriptExecutor.executeScript("arguments[0].style.border=''",webElement);
     }
 
-
+    public void scrollPageTillEndOfThePage()
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        try
+        {
+            Thread.sleep(2000);
+        }catch (InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

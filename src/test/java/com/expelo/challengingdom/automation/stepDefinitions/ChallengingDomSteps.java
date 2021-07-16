@@ -2,7 +2,10 @@ package com.expelo.challengingdom.automation.stepDefinitions;
 
 import com.expelo.challengingdom.automation.constants.Constants;
 import com.expelo.challengingdom.automation.pages.ChallengingDomPage;
+import com.expelo.challengingdom.automation.pages.GitHubPage;
+import com.expelo.challengingdom.automation.pages.SeleniumPage;
 import com.expelo.challengingdom.automation.utils.Generic;
+
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -13,7 +16,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 
 public class ChallengingDomSteps extends Generic
 {
@@ -21,6 +26,8 @@ public class ChallengingDomSteps extends Generic
     String navyButtonTextBeforeClick;
     String redButtonTextBeforeClick;
     String greenButtonTextBeforeClick;
+
+
 
     @Given("application is launched")
     public void application_is_launched() {
@@ -204,5 +211,62 @@ public class ChallengingDomSteps extends Generic
         driver.quit();
 
     }
+
+    @Then("user should see {string} text on the page")
+    public void user_should_see_text_on_the_page(String textValue) {
+
+        String githubLinkText=getTextOfTheElement(ChallengingDomPage.forkMeOnGithubLink);
+        Assert.assertTrue(validateText(githubLinkText,textValue));
+
+    }
+
+    @Then("user clicks on the github link")
+    public void user_clicks_on_the_github_link() {
+
+        click(ChallengingDomPage.forkMeOnGithubLink);
+
+    }
+
+    @Then("user should navigate to github page")
+    public void user_should_navigate_to_github_page() {
+
+        Assert.assertTrue(validateElement(driver.findElement(GitHubPage.gitHubProjectText)));
+
+    }
+
+    @Then("user should see footer text as {string} on the page")
+    public void user_should_see_footer_text_as_on_the_page(String footerText) {
+
+        String footerTextPart1=getTextOfTheElement(ChallengingDomPage.footerText);
+        String footerTextPart2=getTextOfTheElement(ChallengingDomPage.footerSeleniumLink);
+        String finalText=footerTextPart1+footerTextPart2;
+        Assert.assertTrue(validateText(finalText,footerText));
+
+    }
+
+    @Then("user clicks on the footer link")
+    public void user_clicks_on_the_footer_link() {
+
+        scrollPageTillEndOfThePage();
+        click(ChallengingDomPage.footerSeleniumLink);
+
+    }
+
+    @Then("user should navigate to element selenium page")
+    public void user_should_navigate_to_element_selenium_page() {
+
+        String parentWindow=driver.getWindowHandle();
+        Set<String> windowHandles=driver.getWindowHandles();
+        for(String window:windowHandles)
+        {
+            if(window!=parentWindow)
+                driver.switchTo().window(window);
+        }
+
+        String text=getTextOfTheElement(SeleniumPage.seleniumText);
+        Assert.assertTrue(validateText(text,Constants.ELEMENTAL_SELENIUM_TEXT));
+
+    }
+
 
 }
