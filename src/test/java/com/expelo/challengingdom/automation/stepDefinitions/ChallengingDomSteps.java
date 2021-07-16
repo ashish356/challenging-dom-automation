@@ -6,7 +6,10 @@ import com.expelo.challengingdom.automation.pages.GitHubPage;
 import com.expelo.challengingdom.automation.pages.SeleniumPage;
 import com.expelo.challengingdom.automation.utils.Generic;
 
+import com.relevantcodes.extentreports.LogStatus;
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.junit.Assert;
@@ -14,6 +17,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
@@ -52,8 +56,7 @@ public class ChallengingDomSteps extends Generic
         }
         catch(Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -64,15 +67,17 @@ public class ChallengingDomSteps extends Generic
         try {
             if (driver.findElement(ChallengingDomPage.challengingDomText).isDisplayed()) {
                 highlightField(ChallengingDomPage.challengingDomText);
+                writePassInReports("Application is launched successfully");
+                takeScreenShot("Home_Page");
             } else {
-                Assert.fail();
+                takeScreenShot("Home_Page");
+                writeFailInReports("Application is not launched successfully");
             }
         }
         catch (Exception e)
 
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
     }
 
@@ -82,14 +87,17 @@ public class ChallengingDomSteps extends Generic
     public void user_should_see_all_the_three_buttons() {
 
         try {
-            Assert.assertTrue(validateButton(ChallengingDomPage.navyButton));
-            Assert.assertTrue(validateButton(ChallengingDomPage.redButton));
-            Assert.assertTrue(validateButton(ChallengingDomPage.greenButton));
+            if(validateButton(ChallengingDomPage.navyButton)&& validateButton(ChallengingDomPage.redButton)&&validateButton(ChallengingDomPage.greenButton)) {
+                writePassInReports("All the three buttons validated successfully");
+            }
+            else
+            {
+                writeFailInReports("All the three buttons not validated successfully");
+            }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
     }
 
@@ -101,11 +109,11 @@ public class ChallengingDomSteps extends Generic
         try {
             click(ChallengingDomPage.navyButton);
             Thread.sleep(2000);
+            writeInfoInReports("Navy Button is clicked successfully");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -114,12 +122,12 @@ public class ChallengingDomSteps extends Generic
     public void user_get_the_answer_value_from_the_page() {
 
         try {
-            System.out.println("Answer Value is :" + driver.findElement(ChallengingDomPage.canvasImage).getAttribute("alt"));
+
+            writeFailInReports("Unable to read answer value from the canvas image");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -131,11 +139,11 @@ public class ChallengingDomSteps extends Generic
             navyButtonTextBeforeClick = getTextOfTheElement(ChallengingDomPage.navyButton);
             redButtonTextBeforeClick = getTextOfTheElement(ChallengingDomPage.redButton);
             greenButtonTextBeforeClick = getTextOfTheElement(ChallengingDomPage.greenButton);
+            writeInfoInReports("Navy Button Text Before Click is :" +navyButtonTextBeforeClick + " Red Button Text Before Click is : " +redButtonTextBeforeClick+ " Green Button Text Before click is : "+greenButtonTextBeforeClick);
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -151,17 +159,20 @@ public class ChallengingDomSteps extends Generic
             String redButtonTextAfterClick = getTextOfTheElement(ChallengingDomPage.redButton);
             String greenButtonTextAfterClick = getTextOfTheElement(ChallengingDomPage.greenButton);
 
-            System.out.println("Text of the navy button before click is : " + navyButtonTextBeforeClick + " and Text of the navy button after click is : " + navyButtonTextAfterClick);
-            System.out.println("Text of the red button before click is : " + redButtonTextBeforeClick + " and Text of the red button after click is : " + redButtonTextAfterClick);
-            System.out.println("Text of the green button before click is : " + greenButtonTextBeforeClick + " and Text of the green button after click is : " + greenButtonTextAfterClick);
-            Assert.assertTrue(validateTextNotMatching(navyButtonTextAfterClick, navyButtonTextBeforeClick));
-            Assert.assertTrue(validateTextNotMatching(redButtonTextAfterClick, redButtonTextBeforeClick));
-            Assert.assertTrue(validateTextNotMatching(greenButtonTextAfterClick, greenButtonTextBeforeClick));
+            writeInfoInReports("Text of the navy button before click is : " + navyButtonTextBeforeClick + " and Text of the navy button after click is : " + navyButtonTextAfterClick);
+            writeInfoInReports("Text of the red button before click is : " + redButtonTextBeforeClick + " and Text of the red button after click is : " + redButtonTextAfterClick);
+            writeInfoInReports("Text of the green button before click is : " + greenButtonTextBeforeClick + " and Text of the green button after click is : " + greenButtonTextAfterClick);
+            if(validateTextNotMatching(navyButtonTextAfterClick, navyButtonTextBeforeClick)&&validateTextNotMatching(redButtonTextAfterClick, redButtonTextBeforeClick)&&validateTextNotMatching(greenButtonTextAfterClick, greenButtonTextBeforeClick))
+            {
+                writePassInReports("All three button text changed successfully on click of one of the button");
+            }
+          else {
+                writeFailInReports("All three button text not changed successfully on click of one of the button");
+            }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -172,12 +183,11 @@ public class ChallengingDomSteps extends Generic
     public void answer_value_should_get_changed() {
         try
         {
-
+           writeFailInReports("Unable to read answer value from the canvas image");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -187,14 +197,20 @@ public class ChallengingDomSteps extends Generic
     {
         try {
             for (int i = 1; i <= 10; i++) {
-                Assert.assertTrue(validateElement(driver.findElement(By.xpath("(//a[text()='edit'])[" + i + "]"))));
-                Assert.assertTrue(validateElement(driver.findElement(By.xpath("(//a[text()='delete'])[" + i + "]"))));
+
+                if(validateElement(driver.findElement(By.xpath("(//a[text()='edit'])[" + i + "]"))) &&validateElement(driver.findElement(By.xpath("(//a[text()='delete'])[" + i + "]"))))
+                {
+                    writePassInReports("Delete and Edit Link is present for the row "+i+" in the table");
+                }
+                else {
+                    writeFailInReports("Delete and Edit Link is not present for the row "+i+" in the table");
+                }
+
             }
         }
         catch (Exception e)
             {
-                System.out.println("Exception is : " +e.getMessage());
-                Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+                writeFailInReports(String.format("Exception is : %s", e));
             }
 
     }
@@ -204,18 +220,22 @@ public class ChallengingDomSteps extends Generic
 
         try {
 
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.loremText, Constants.LOREM));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.ipsumText, Constants.IPSUM));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.dolarText, Constants.DOLOR));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.sitText, Constants.SIT));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.ametText, Constants.AMET));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.diceretText, Constants.DICERET));
-            Assert.assertTrue(validateHeaderText(ChallengingDomPage.actionText, Constants.ACTION));
+            if(validateHeaderText(ChallengingDomPage.loremText, Constants.LOREM)&&validateHeaderText(ChallengingDomPage.ipsumText, Constants.IPSUM)&&
+                    validateHeaderText(ChallengingDomPage.dolarText, Constants.DOLOR)&&validateHeaderText(ChallengingDomPage.sitText, Constants.SIT)&&
+            validateHeaderText(ChallengingDomPage.ametText, Constants.AMET)&&validateHeaderText(ChallengingDomPage.diceretText, Constants.DICERET)
+             &&validateHeaderText(ChallengingDomPage.actionText, Constants.ACTION))
+            {
+                writePassInReports("Table header is validated successfully");
+            }
+            else {
+                writeFailInReports("Table header is not validated successfully");
+            }
+
+
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
     }
 
@@ -227,14 +247,21 @@ public class ChallengingDomSteps extends Generic
 
         try {
             for (int i = 0; i <= 9; i++) {
-                Assert.assertTrue(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret" + i + "'" + "]"))));
+                int j=i+1;
+                if(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret" + i + "'" + "]"))))
+                {
+
+                    writePassInReports("Data in row "+j+" is validated successfully");
+                }
+                else {
+                    writeFailInReports("Data in row "+j+" is not validated successfully");
+                }
 
             }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -244,11 +271,11 @@ public class ChallengingDomSteps extends Generic
 
         try {
             click(ChallengingDomPage.deleteLink);
+            writeInfoInReports("User Clicked on Delete Link");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -258,12 +285,19 @@ public class ChallengingDomSteps extends Generic
 
         try {
 
-            Assert.assertFalse(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret0']"))));
+            if(!validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret0']"))))
+            {
+                writePassInReports("Rows deleted successfully on click of delete link");
+                takeScreenShot("Updated_Home_Page");
+            }
+            else {
+                takeScreenShot("Updated_Home_Page");
+                writeFailInReports("Row is not deleted on click of delete link");
+            }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -273,11 +307,11 @@ public class ChallengingDomSteps extends Generic
 
         try {
             click(ChallengingDomPage.editLink);
+            writeInfoInReports("User Clicked on Edit Link");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -286,12 +320,12 @@ public class ChallengingDomSteps extends Generic
     public void row_should_be_editable() {
 
         try {
-            Assert.assertTrue(driver.findElement(By.xpath("//td[text()='Iuvaret0']")).isEnabled());
+            //Assert.assertTrue(driver.findElement(By.xpath("//td[text()='Iuvaret0']")).isEnabled());
+            writeFailInReports("Unable to verify any field is editable on click of edit button");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -301,11 +335,11 @@ public class ChallengingDomSteps extends Generic
 
         try {
             click(ChallengingDomPage.redButton);
+            writeInfoInReports("User Clicked on Red Button");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -315,11 +349,11 @@ public class ChallengingDomSteps extends Generic
 
         try {
             click(ChallengingDomPage.greenButton);
+            writeInfoInReports("User Clicked on Green Button");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -327,7 +361,19 @@ public class ChallengingDomSteps extends Generic
     @After
     public void teardown()
     {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
+
+        if (extentReports != null) {
+            try {
+                extentReports.endTest(extentTest);
+                extentReports.flush();
+            } catch (Exception e) {
+                writeFailInReports(String.format("Exception is : %s", e));
+
+            }
+        }
 
     }
 
@@ -336,13 +382,17 @@ public class ChallengingDomSteps extends Generic
 
         try {
             String githubLinkText = driver.findElement(ChallengingDomPage.forkMeOnGithubLink).getAttribute("alt");
-            System.out.println("Git Hub link Text is : " + githubLinkText);
-            Assert.assertTrue(validateText(githubLinkText, textValue));
+            writeInfoInReports("Git Hub link Text is : " + githubLinkText);
+            if(validateText(githubLinkText, textValue)){
+                writePassInReports("Git Hub Link text is validated successfully");
+            }
+            else {
+                writeFailInReports("Git Hub Link text is not validated successfully");
+            }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -352,11 +402,11 @@ public class ChallengingDomSteps extends Generic
 
         try {
             click(ChallengingDomPage.forkMeOnGithubLink);
+            writeInfoInReports("user clicked on Git Hub Link");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -366,12 +416,18 @@ public class ChallengingDomSteps extends Generic
 
         try {
             highlightField(GitHubPage.gitHubProjectText);
-            Assert.assertTrue(validateElement(driver.findElement(GitHubPage.gitHubProjectText)));
+            if(validateElement(driver.findElement(GitHubPage.gitHubProjectText))){
+                writePassInReports("User successfully navigated to Github Page");
+                takeScreenShot("Git_Hub_Page");
+            }
+            else {
+                takeScreenShot("Git_Hub_Page");
+                writeFailInReports("User is not navigated to Github Page");
+            }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -383,13 +439,20 @@ public class ChallengingDomSteps extends Generic
             String footerTextFromPage = getTextOfTheElement(ChallengingDomPage.footerText);
             scrollPageTillEndOfThePage();
             highlightField(ChallengingDomPage.footerText);
-            System.out.println("Footer Text from page is : " + footerTextFromPage);
-            Assert.assertTrue(validateText(footerTextFromPage, footerText));
+            writeInfoInReports("Footer Text from page is : " + footerTextFromPage);
+            if(validateText(footerTextFromPage, footerText))
+            {
+                writePassInReports("Footer Text is validated successfully");
+                takeScreenShot("Footer");
+            }
+            else {
+                takeScreenShot("Footer");
+                writeFailInReports("Footer Text is not validated successfully");
+            }
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -400,11 +463,11 @@ public class ChallengingDomSteps extends Generic
         try {
             scrollPageTillEndOfThePage();
             click(ChallengingDomPage.footerSeleniumLink);
+            writeInfoInReports("User clicks on Footer Link");
         }
         catch (Exception e)
         {
-            System.out.println("Exception is : " +e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
@@ -423,13 +486,36 @@ public class ChallengingDomSteps extends Generic
 
             String text = getTextOfTheElement(SeleniumPage.seleniumText);
             highlightField(SeleniumPage.seleniumText);
-            System.out.println("Selenium page text is : " + text);
-            Assert.assertTrue(validateText(text, Constants.ELEMENTAL_SELENIUM_TEXT));
+            writeInfoInReports("Selenium page text is : " + text);
+           if(validateText(text, Constants.ELEMENTAL_SELENIUM_TEXT))
+           {
+               writePassInReports("User is successfully navigated to Selenium page");
+               takeScreenShot("Selenium Page");
+           }
+           else {
+               takeScreenShot("Selenium Page");
+               writeFailInReports("User is not navigated to Selenium page");
+           }
 
         } catch (Exception e) {
-            System.out.println("Exception is : " + e.getMessage());
-            Assert.fail("Scripts failed.Exception is : " + e.getMessage());
+            writeFailInReports(String.format("Exception is : %s", e));
         }
 
     }
+
+    @Before
+    public void setup(Scenario scenario) {
+
+        Generic.scenario = scenario;
+        extentTest = extentReports.startTest(scenario.getName());
+        createDirectoryIfDoesNotExist("reports");
+    }
+
+    private void createDirectoryIfDoesNotExist(final String directoryName) {
+        final File directory = new File(Constants.PROJECT_DIRECTORY + "/" + directoryName);
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+    }
+
 }
