@@ -149,7 +149,7 @@
                 <namingPattern>Parallel{c}IT</namingPattern>
                 <parallelScheme>FEATURE</parallelScheme>
                 <tags>
-                  <tag>@UIRegressionTest</tag>
+                  <tag>@DomApplicationValidation</tag>
                 </tags>
               </configuration>
             </execution>
