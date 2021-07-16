@@ -26,10 +26,15 @@ public class Generic {
         return driver.findElement(object).getText().equals(textValue);
     }
 
+    public boolean validateTextNotMatching(String textValue1, String textValue2 )
+    {
+        return !textValue1.equals(textValue2);
+    }
     public boolean validateText(String textValue1, String textValue2 )
     {
-        return textValue1 != textValue2;
+        return textValue1.equals(textValue2);
     }
+
 
     public String getTextOfTheElement(By object)
     {

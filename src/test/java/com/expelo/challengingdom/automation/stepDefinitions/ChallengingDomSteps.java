@@ -106,9 +106,16 @@ public class ChallengingDomSteps extends Generic
     @Then("text should change for each button")
     public void text_should_change_for_each_button() {
 
-        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.navyButton),navyButtonTextBeforeClick));
-        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.redButton),redButtonTextBeforeClick));
-        Assert.assertTrue(validateText(getTextOfTheElement(ChallengingDomPage.greenButton),greenButtonTextBeforeClick));
+        String navyButtonTextAfterClick=getTextOfTheElement(ChallengingDomPage.navyButton);
+        String redButtonTextAfterClick=getTextOfTheElement(ChallengingDomPage.redButton);
+        String greenButtonTextAfterClick=getTextOfTheElement(ChallengingDomPage.greenButton);
+
+        System.out.println("Text of the navy button before click is : " +navyButtonTextBeforeClick+ " and Text of the navy button after click is : "+ navyButtonTextAfterClick);
+        System.out.println("Text of the red button before click is : " +redButtonTextBeforeClick+ " and Text of the red button after click is : "+ redButtonTextAfterClick);
+        System.out.println("Text of the green button before click is : " +greenButtonTextBeforeClick+ " and Text of the green button after click is : "+ greenButtonTextAfterClick);
+        Assert.assertTrue(validateTextNotMatching(navyButtonTextAfterClick,navyButtonTextBeforeClick));
+        Assert.assertTrue(validateTextNotMatching(redButtonTextAfterClick,redButtonTextBeforeClick));
+        Assert.assertTrue(validateTextNotMatching(greenButtonTextAfterClick,greenButtonTextBeforeClick));
 
     }
 
@@ -215,7 +222,8 @@ public class ChallengingDomSteps extends Generic
     @Then("user should see {string} text on the page")
     public void user_should_see_text_on_the_page(String textValue) {
 
-        String githubLinkText=getTextOfTheElement(ChallengingDomPage.forkMeOnGithubLink);
+        String githubLinkText=driver.findElement(ChallengingDomPage.forkMeOnGithubLink).getAttribute("alt");
+        System.out.println("Git Hub link Text is : "+githubLinkText);
         Assert.assertTrue(validateText(githubLinkText,textValue));
 
     }
@@ -230,6 +238,7 @@ public class ChallengingDomSteps extends Generic
     @Then("user should navigate to github page")
     public void user_should_navigate_to_github_page() {
 
+        highlightField(GitHubPage.gitHubProjectText);
         Assert.assertTrue(validateElement(driver.findElement(GitHubPage.gitHubProjectText)));
 
     }
@@ -237,10 +246,11 @@ public class ChallengingDomSteps extends Generic
     @Then("user should see footer text as {string} on the page")
     public void user_should_see_footer_text_as_on_the_page(String footerText) {
 
-        String footerTextPart1=getTextOfTheElement(ChallengingDomPage.footerText);
-        String footerTextPart2=getTextOfTheElement(ChallengingDomPage.footerSeleniumLink);
-        String finalText=footerTextPart1+footerTextPart2;
-        Assert.assertTrue(validateText(finalText,footerText));
+        String footerTextFromPage=getTextOfTheElement(ChallengingDomPage.footerText);
+        scrollPageTillEndOfThePage();
+        highlightField(ChallengingDomPage.footerText);
+        System.out.println("Footer Text from page is : " +footerTextFromPage);
+        Assert.assertTrue(validateText(footerTextFromPage,footerText));
 
     }
 
@@ -264,6 +274,8 @@ public class ChallengingDomSteps extends Generic
         }
 
         String text=getTextOfTheElement(SeleniumPage.seleniumText);
+        highlightField(SeleniumPage.seleniumText);
+        System.out.println("Selenium page text is : " +text);
         Assert.assertTrue(validateText(text,Constants.ELEMENTAL_SELENIUM_TEXT));
 
     }

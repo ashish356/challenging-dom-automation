@@ -11,6 +11,6 @@ import org.junit.runner.RunWith;
         plugin ={"html:target/cucumber-html-report","json:target/report/cucumber.json"} ,
         monochrome = true,
         dryRun = false,
-        tags = {"@DomApplicationValidation"})
+        tags = {"@ForkMeOnGithubTextValidation"})
 public class Runner {
 }
