@@ -32,35 +32,47 @@ public class ChallengingDomSteps extends Generic
     @Given("application is launched")
     public void application_is_launched() {
 
-        HashMap<String , Object> chromePreferences=new HashMap<>();
-        chromePreferences.put("profile.default_content_settings.popups",0);
-        ChromeOptions options=new ChromeOptions();
-        options.addArguments("test-type");
-        options.setExperimentalOption("prefs",chromePreferences);
-        options.addArguments("start-maximized");
-        options.addArguments("--enable-automation");
-        options.addArguments("test-type=browser");
-        options.addArguments("-disable-infobars");
-        options.setExperimentalOption("useAutomationExtension", false);
-        options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-Automation"));
-        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"/drivers/chromedriver");
-        driver=new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
-        driver.get(Constants.CHALLENGING_DOM_URL);
+        try {
+            HashMap<String, Object> chromePreferences = new HashMap<>();
+            chromePreferences.put("profile.default_content_settings.popups", 0);
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("test-type");
+            options.setExperimentalOption("prefs", chromePreferences);
+            options.addArguments("start-maximized");
+            options.addArguments("--enable-automation");
+            options.addArguments("test-type=browser");
+            options.addArguments("-disable-infobars");
+            options.setExperimentalOption("useAutomationExtension", false);
+            options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-Automation"));
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver");
+            driver = new ChromeDriver(options);
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            driver.get(Constants.CHALLENGING_DOM_URL);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should be on the home page")
     public void user_should_be_on_the_home_page() {
 
-        if(driver.findElement(ChallengingDomPage.challengingDomText).isDisplayed())
-        {
-            highlightField(ChallengingDomPage.challengingDomText);
+        try {
+            if (driver.findElement(ChallengingDomPage.challengingDomText).isDisplayed()) {
+                highlightField(ChallengingDomPage.challengingDomText);
+            } else {
+                Assert.fail();
+            }
         }
-        else
+        catch (Exception e)
+
         {
-            Assert.fail();
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
         }
     }
 
@@ -69,10 +81,16 @@ public class ChallengingDomSteps extends Generic
     @Then("user should see all the three buttons")
     public void user_should_see_all_the_three_buttons() {
 
-        Assert.assertTrue(validateButton(ChallengingDomPage.navyButton));
-        Assert.assertTrue(validateButton(ChallengingDomPage.redButton));
-        Assert.assertTrue(validateButton(ChallengingDomPage.greenButton));
-
+        try {
+            Assert.assertTrue(validateButton(ChallengingDomPage.navyButton));
+            Assert.assertTrue(validateButton(ChallengingDomPage.redButton));
+            Assert.assertTrue(validateButton(ChallengingDomPage.greenButton));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
     }
 
 
@@ -80,24 +98,45 @@ public class ChallengingDomSteps extends Generic
     @Then("user should click on the navy Button")
     public void user_should_click_on_the_navy_Button() throws InterruptedException {
 
-        click(ChallengingDomPage.navyButton);
-        Thread.sleep(2000);
+        try {
+            click(ChallengingDomPage.navyButton);
+            Thread.sleep(2000);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user get the answer value from the page")
     public void user_get_the_answer_value_from_the_page() {
 
-        System.out.println("Answer Value is :" + driver.findElement(ChallengingDomPage.canvasImage).getAttribute("alt"));
+        try {
+            System.out.println("Answer Value is :" + driver.findElement(ChallengingDomPage.canvasImage).getAttribute("alt"));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user get all the text of the button")
     public void user_get_all_the_text_of_the_button() {
 
-        navyButtonTextBeforeClick=getTextOfTheElement(ChallengingDomPage.navyButton);
-        redButtonTextBeforeClick=getTextOfTheElement(ChallengingDomPage.redButton);
-        greenButtonTextBeforeClick=getTextOfTheElement(ChallengingDomPage.greenButton);
+        try {
+            navyButtonTextBeforeClick = getTextOfTheElement(ChallengingDomPage.navyButton);
+            redButtonTextBeforeClick = getTextOfTheElement(ChallengingDomPage.redButton);
+            greenButtonTextBeforeClick = getTextOfTheElement(ChallengingDomPage.greenButton);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
@@ -106,16 +145,24 @@ public class ChallengingDomSteps extends Generic
     @Then("text should change for each button")
     public void text_should_change_for_each_button() {
 
-        String navyButtonTextAfterClick=getTextOfTheElement(ChallengingDomPage.navyButton);
-        String redButtonTextAfterClick=getTextOfTheElement(ChallengingDomPage.redButton);
-        String greenButtonTextAfterClick=getTextOfTheElement(ChallengingDomPage.greenButton);
+        try {
 
-        System.out.println("Text of the navy button before click is : " +navyButtonTextBeforeClick+ " and Text of the navy button after click is : "+ navyButtonTextAfterClick);
-        System.out.println("Text of the red button before click is : " +redButtonTextBeforeClick+ " and Text of the red button after click is : "+ redButtonTextAfterClick);
-        System.out.println("Text of the green button before click is : " +greenButtonTextBeforeClick+ " and Text of the green button after click is : "+ greenButtonTextAfterClick);
-        Assert.assertTrue(validateTextNotMatching(navyButtonTextAfterClick,navyButtonTextBeforeClick));
-        Assert.assertTrue(validateTextNotMatching(redButtonTextAfterClick,redButtonTextBeforeClick));
-        Assert.assertTrue(validateTextNotMatching(greenButtonTextAfterClick,greenButtonTextBeforeClick));
+            String navyButtonTextAfterClick = getTextOfTheElement(ChallengingDomPage.navyButton);
+            String redButtonTextAfterClick = getTextOfTheElement(ChallengingDomPage.redButton);
+            String greenButtonTextAfterClick = getTextOfTheElement(ChallengingDomPage.greenButton);
+
+            System.out.println("Text of the navy button before click is : " + navyButtonTextBeforeClick + " and Text of the navy button after click is : " + navyButtonTextAfterClick);
+            System.out.println("Text of the red button before click is : " + redButtonTextBeforeClick + " and Text of the red button after click is : " + redButtonTextAfterClick);
+            System.out.println("Text of the green button before click is : " + greenButtonTextBeforeClick + " and Text of the green button after click is : " + greenButtonTextAfterClick);
+            Assert.assertTrue(validateTextNotMatching(navyButtonTextAfterClick, navyButtonTextBeforeClick));
+            Assert.assertTrue(validateTextNotMatching(redButtonTextAfterClick, redButtonTextBeforeClick));
+            Assert.assertTrue(validateTextNotMatching(greenButtonTextAfterClick, greenButtonTextBeforeClick));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
@@ -123,17 +170,32 @@ public class ChallengingDomSteps extends Generic
 
     @Then("answer value should get changed")
     public void answer_value_should_get_changed() {
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should see delete and edit link on the page")
     public void user_should_see_delete_and_edit_link_on_the_page()
     {
-        for(int i=1;i<=10;i++)
-        {
-            Assert.assertTrue(validateElement(driver.findElement(By.xpath("(//a[text()='edit'])[" +i +"]"))));
-            Assert.assertTrue(validateElement(driver.findElement(By.xpath("(//a[text()='delete'])[" +i +"]"))));
+        try {
+            for (int i = 1; i <= 10; i++) {
+                Assert.assertTrue(validateElement(driver.findElement(By.xpath("(//a[text()='edit'])[" + i + "]"))));
+                Assert.assertTrue(validateElement(driver.findElement(By.xpath("(//a[text()='delete'])[" + i + "]"))));
+            }
         }
+        catch (Exception e)
+            {
+                System.out.println("Exception is : " +e.getMessage());
+                Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+            }
 
     }
 
@@ -152,7 +214,8 @@ public class ChallengingDomSteps extends Generic
         }
         catch (Exception e)
         {
-
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
         }
     }
 
@@ -162,10 +225,16 @@ public class ChallengingDomSteps extends Generic
     @Then("user should see ten rows of data in the table")
     public void user_should_see_ten_rows_of_data_in_the_table() {
 
-        for(int i=0;i<=9;i++)
-        {
-            Assert.assertTrue(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret" +i+"'"+"]"))));
+        try {
+            for (int i = 0; i <= 9; i++) {
+                Assert.assertTrue(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret" + i + "'" + "]"))));
 
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
         }
 
     }
@@ -173,42 +242,85 @@ public class ChallengingDomSteps extends Generic
     @Then("user click on the delete Button")
     public void user_click_on_the_delete_Button() {
 
-       click(ChallengingDomPage.deleteLink);
+        try {
+            click(ChallengingDomPage.deleteLink);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("the row should get deleted")
     public void the_row_should_get_deleted() {
 
-        Assert.assertFalse(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret0']"))));
+        try {
+
+            Assert.assertFalse(validateElement(driver.findElement(By.xpath("//td[text()='Iuvaret0']"))));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user click on the edit Button")
     public void user_click_on_the_edit_Button() {
 
-        click(ChallengingDomPage.editLink);
+        try {
+            click(ChallengingDomPage.editLink);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("row should be editable")
     public void row_should_be_editable() {
 
-        Assert.assertTrue(driver.findElement(By.xpath("//td[text()='Iuvaret0']")).isEnabled());
+        try {
+            Assert.assertTrue(driver.findElement(By.xpath("//td[text()='Iuvaret0']")).isEnabled());
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should click on red Button")
     public void user_should_click_on_red_Button() {
 
-        click(ChallengingDomPage.redButton);
+        try {
+            click(ChallengingDomPage.redButton);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should click on green Button")
     public void user_should_click_on_green_Button() {
 
-        click(ChallengingDomPage.greenButton);
+        try {
+            click(ChallengingDomPage.greenButton);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
@@ -222,63 +334,102 @@ public class ChallengingDomSteps extends Generic
     @Then("user should see {string} text on the page")
     public void user_should_see_text_on_the_page(String textValue) {
 
-        String githubLinkText=driver.findElement(ChallengingDomPage.forkMeOnGithubLink).getAttribute("alt");
-        System.out.println("Git Hub link Text is : "+githubLinkText);
-        Assert.assertTrue(validateText(githubLinkText,textValue));
+        try {
+            String githubLinkText = driver.findElement(ChallengingDomPage.forkMeOnGithubLink).getAttribute("alt");
+            System.out.println("Git Hub link Text is : " + githubLinkText);
+            Assert.assertTrue(validateText(githubLinkText, textValue));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user clicks on the github link")
     public void user_clicks_on_the_github_link() {
 
-        click(ChallengingDomPage.forkMeOnGithubLink);
+        try {
+            click(ChallengingDomPage.forkMeOnGithubLink);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should navigate to github page")
     public void user_should_navigate_to_github_page() {
 
-        highlightField(GitHubPage.gitHubProjectText);
-        Assert.assertTrue(validateElement(driver.findElement(GitHubPage.gitHubProjectText)));
+        try {
+            highlightField(GitHubPage.gitHubProjectText);
+            Assert.assertTrue(validateElement(driver.findElement(GitHubPage.gitHubProjectText)));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should see footer text as {string} on the page")
     public void user_should_see_footer_text_as_on_the_page(String footerText) {
 
-        String footerTextFromPage=getTextOfTheElement(ChallengingDomPage.footerText);
-        scrollPageTillEndOfThePage();
-        highlightField(ChallengingDomPage.footerText);
-        System.out.println("Footer Text from page is : " +footerTextFromPage);
-        Assert.assertTrue(validateText(footerTextFromPage,footerText));
+        try {
+            String footerTextFromPage = getTextOfTheElement(ChallengingDomPage.footerText);
+            scrollPageTillEndOfThePage();
+            highlightField(ChallengingDomPage.footerText);
+            System.out.println("Footer Text from page is : " + footerTextFromPage);
+            Assert.assertTrue(validateText(footerTextFromPage, footerText));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user clicks on the footer link")
     public void user_clicks_on_the_footer_link() {
 
-        scrollPageTillEndOfThePage();
-        click(ChallengingDomPage.footerSeleniumLink);
+        try {
+            scrollPageTillEndOfThePage();
+            click(ChallengingDomPage.footerSeleniumLink);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception is : " +e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " +e.getMessage());
+        }
 
     }
 
     @Then("user should navigate to element selenium page")
     public void user_should_navigate_to_element_selenium_page() {
 
-        String parentWindow=driver.getWindowHandle();
-        Set<String> windowHandles=driver.getWindowHandles();
-        for(String window:windowHandles)
-        {
-            if(window!=parentWindow)
-                driver.switchTo().window(window);
+        try {
+
+            String parentWindow = driver.getWindowHandle();
+            Set<String> windowHandles = driver.getWindowHandles();
+            for (String window : windowHandles) {
+                if (window != parentWindow)
+                    driver.switchTo().window(window);
+            }
+
+            String text = getTextOfTheElement(SeleniumPage.seleniumText);
+            highlightField(SeleniumPage.seleniumText);
+            System.out.println("Selenium page text is : " + text);
+            Assert.assertTrue(validateText(text, Constants.ELEMENTAL_SELENIUM_TEXT));
+
+        } catch (Exception e) {
+            System.out.println("Exception is : " + e.getMessage());
+            Assert.fail("Scripts failed.Exception is : " + e.getMessage());
         }
 
-        String text=getTextOfTheElement(SeleniumPage.seleniumText);
-        highlightField(SeleniumPage.seleniumText);
-        System.out.println("Selenium page text is : " +text);
-        Assert.assertTrue(validateText(text,Constants.ELEMENTAL_SELENIUM_TEXT));
-
     }
-
-
 }
