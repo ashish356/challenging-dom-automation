@@ -73,5 +73,29 @@ Feature: Validate Challenging dom application
     Then text should change for each button
 
 
+  @DomApplicationValidation @ForkMeOnGithubTextValidation
+  Scenario: To validate text of fork me on Github on challenging dom application
+    Then user should be on the home page
+    And user should see "Fork me on GitHub" text on the page
+
+  @DomApplicationValidation @ForkMeOnGithubLinkValidation
+  Scenario: To validate user should navigate to github page on clicking github link text
+    Then user should be on the home page
+    And user clicks on the github link
+    Then user should navigate to github page
+
+  @DomApplicationValidation @FooterTextValidation
+  Scenario: To validate footer text on challenging dom application
+    Then user should be on the home page
+     And user should see footer text as "Powered by Elemental Selenium" on the page
+
+  @DomApplicationValidation @FooterLinkValidation
+  Scenario: To validate user should navigate to element Selenium page on clicking footer link
+    Then user should be on the home page
+    And user clicks on the footer link
+    Then user should navigate to element selenium page
+
+
+
 
 
