@@ -48,7 +48,7 @@ public class ChallengingDomSteps extends Generic
             options.addArguments("-disable-infobars");
             options.setExperimentalOption("useAutomationExtension", false);
             options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-Automation"));
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver");
+            System.setProperty("webdriver.chrome.driver", findWebDriverLocation(System.getProperty("os.name").toLowerCase()));
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);

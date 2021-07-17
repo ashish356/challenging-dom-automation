@@ -154,4 +154,18 @@ public void takeScreenShot(String stepName)
                          +stepName
                  +".jpg"));
 }
+
+
+    protected static String findWebDriverLocation(String os) {
+        String baseDir=System.getProperty("user.dir");
+        if(os.contains("mac"))
+        {
+            return baseDir+"/drivers/chromedriver";
+        }else
+        {
+            return baseDir+"/drivers/chromedriver.exe";
+        }
+
+
+    }
 }

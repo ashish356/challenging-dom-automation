@@ -21,17 +21,36 @@
     <db2jcc4.version>10.5</db2jcc4.version>
     <extentreports.version>2.41.2</extentreports.version>
     <freemarker.version>2.3.23</freemarker.version>
+    <guava.version>28.0-jre</guava.version>
+    <jasypt-spring-boot-starter.version>2.0.0</jasypt-spring-boot-starter.version>
     <junit.version>4.12</junit.version>
+    <immutables.version>2.7.4</immutables.version>
+    <ojdbc8.version>12.2.0.1</ojdbc8.version>
     <poi.version>3.17</poi.version>
+    <saucelabs.version>2.1.23</saucelabs.version>
     <selenium.version>3.11.0</selenium.version>
-
-
+    <selenium-htmlunit-driver>2.52.0</selenium-htmlunit-driver>
+    <spring-boot-dependencies.version>2.1.7.RELEASE</spring-boot-dependencies.version>
+    <rest-assured.version>4.0.0</rest-assured.version>
+    <spring-data.version>2.2.0.RELEASE</spring-data.version>
 
     <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-    <maven-compiler-plugin>3.8.1</maven-compiler-plugin>
+    <maven-compiler-plugin>1.8</maven-compiler-plugin>
     <maven-cucumber-reporting.version>4.6.0</maven-cucumber-reporting.version>
 
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot-dependencies.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
 
@@ -91,13 +110,194 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.ulisesbocchio</groupId>
+      <artifactId>jasypt-spring-boot-starter</artifactId>
+      <version>${jasypt-spring-boot-starter.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-server</artifactId>
+      <version>${selenium.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-spring</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.relevantcodes</groupId>
+      <artifactId>extentreports</artifactId>
+      <version>${extentreports.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>${freemarker.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${rest-assured.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>json-path</artifactId>
+      <version>${rest-assured.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>xml-path</artifactId>
+      <version>${rest-assured.version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>json-schema-validator</artifactId>
+      <version>${rest-assured.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.saucelabs</groupId>
+      <artifactId>sauce_junit</artifactId>
+      <version>${saucelabs.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.saucelabs</groupId>
+      <artifactId>sauce_java_common</artifactId>
+      <version>${saucelabs.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>${poi.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>${poi.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>${awaitility.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <version>${spring-data.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <version>${immutables.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-htmlunit-driver</artifactId>
+      <version>${selenium-htmlunit-driver}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <version>2.1.7.RELEASE</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
-    <defaultGoal>test</defaultGoal>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <defaultGoal>test</defaultGoal>
       <plugins>
-
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -128,6 +328,7 @@
 
 
 
+
         <plugin>
           <groupId>com.github.temyers</groupId>
           <artifactId>cucumber-jvm-parallel-plugin</artifactId>
@@ -148,43 +349,44 @@
                 <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
                 <namingPattern>Parallel{c}IT</namingPattern>
                 <parallelScheme>FEATURE</parallelScheme>
-                <tags>
-                  <tag>@DomApplicationValidation</tag>
-                </tags>
+                <!--<tags>
+                    <tag>@CreateEmployee</tag>
+                </tags>-->
               </configuration>
             </execution>
           </executions>
         </plugin>
 
 
-        <plugin>
-          <groupId>net.masterthought</groupId>
-          <artifactId>maven-cucumber-reporting</artifactId>
-          <version>${maven-cucumber-reporting.version}</version>
-          <executions>
-            <execution>
-              <id>execution</id>
-              <phase>test</phase>
-              <goals>
-                <goal>generate</goal>
-              </goals>
-              <configuration>
-                <projectName>ChallengingDomAutomation</projectName>
-                <skip>false</skip>
-                <outputDirectory>${project.build.directory}</outputDirectory>
-                <inputDirectory>${project.build.directory}/cucumber-parallel</inputDirectory>
-                <jsonFiles>
-                  <param>*.json</param>
-                </jsonFiles>
-                <checkBuildResult>false</checkBuildResult>
-              </configuration>
-            </execution>
-          </executions>
-
-        </plugin>
 
 
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+        <!--  <plugin>
+              <groupId>net.masterthought</groupId>
+              <artifactId>maven-cucumber-reporting</artifactId>
+              <version>${maven-cucumber-reporting.version}</version>
+              <executions>
+                  <execution>
+                      <id>execution</id>
+                      <phase>test</phase>
+                      <goals>
+                          <goal>generate</goal>
+                      </goals>
+                      <configuration>
+                          <projectName>TPPAutomation</projectName>
+                          <skip>false</skip>
+                          <outputDirectory>${project.build.directory}</outputDirectory>
+                          <inputDirectory>${project.build.directory}/cucumber-parallel</inputDirectory>
+                          <jsonFiles>
+                              <param>*.json</param>
+                          </jsonFiles>
+                          <checkBuildResult>false</checkBuildResult>
+                      </configuration>
+                  </execution>
+              </executions>
+
+          </plugin>-->
+
+    <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
@@ -219,11 +421,10 @@
           <artifactId>maven-site-plugin</artifactId>
           <version>3.7.1</version>
         </plugin>
-        <plugin>
+       <!-- <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
-        </plugin>
+        </plugin>-->
       </plugins>
-    </pluginManagement>
   </build>
 </project>
