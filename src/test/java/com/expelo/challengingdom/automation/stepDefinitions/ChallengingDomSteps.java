@@ -16,6 +16,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Collections;
@@ -31,7 +33,7 @@ public class ChallengingDomSteps extends Generic
     String redButtonTextBeforeClick;
     String greenButtonTextBeforeClick;
 
-
+    private static final Logger LOGGER= LoggerFactory.getLogger(ChallengingDomSteps.class);
 
     @Given("application is launched")
     public void application_is_launched() {
@@ -484,6 +486,7 @@ public class ChallengingDomSteps extends Generic
 
         Generic.scenario = scenario;
         extentTest = extentReports.startTest(scenario.getName());
+        LOGGER.info("Executing Scenario : " +scenario.getName());
         createDirectoryIfDoesNotExist("reports");
     }
 

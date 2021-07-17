@@ -7,6 +7,8 @@ import cucumber.api.Scenario;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +20,7 @@ public class Generic {
     protected static ExtentTest extentTest;
     public static Scenario scenario;
     public static WebDriver driver;
+    private static final Logger LOGGER= LoggerFactory.getLogger(Generic.class);
 
     public void click(By object) {
         highlightField(object);
@@ -90,18 +93,21 @@ public class Generic {
     public void writeInfoInReports(String message) {
         extentTest.log(LogStatus.INFO, message);
         scenario.write(message);
+        LOGGER.info(message);
 
     }
 
     public void writePassInReports(String message) {
         extentTest.log(LogStatus.PASS, message);
         scenario.write(message);
+        LOGGER.info(message);
 
     }
 
     public void writeFailInReports(String message) {
         extentTest.log(LogStatus.FAIL, message);
         scenario.write(message);
+        LOGGER.info(message);
         Assert.fail(message);
 
     }
