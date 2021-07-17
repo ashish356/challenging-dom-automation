@@ -55,55 +55,6 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-server</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-
-    <dependency>
-      <groupId>com.relevantcodes</groupId>
-      <artifactId>extentreports</artifactId>
-      <version>${extentreports.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>${freemarker.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-core</artifactId>
       <version>4.2.6</version>
@@ -243,12 +194,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>${poi.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
       <version>${awaitility.version}</version>
@@ -349,18 +294,14 @@
                 <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
                 <namingPattern>Parallel{c}IT</namingPattern>
                 <parallelScheme>FEATURE</parallelScheme>
-                <!--<tags>
-                    <tag>@CreateEmployee</tag>
-                </tags>-->
+                <tags>
+                    <tag>@DomApplicationValidation</tag>
+                </tags>
               </configuration>
             </execution>
           </executions>
         </plugin>
-
-
-
-
-        <!--  <plugin>
+        <plugin>
               <groupId>net.masterthought</groupId>
               <artifactId>maven-cucumber-reporting</artifactId>
               <version>${maven-cucumber-reporting.version}</version>
@@ -372,7 +313,7 @@
                           <goal>generate</goal>
                       </goals>
                       <configuration>
-                          <projectName>TPPAutomation</projectName>
+                          <projectName>ChallengingDomAutomation</projectName>
                           <skip>false</skip>
                           <outputDirectory>${project.build.directory}</outputDirectory>
                           <inputDirectory>${project.build.directory}/cucumber-parallel</inputDirectory>
@@ -384,7 +325,7 @@
                   </execution>
               </executions>
 
-          </plugin>-->
+          </plugin>
 
     <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
