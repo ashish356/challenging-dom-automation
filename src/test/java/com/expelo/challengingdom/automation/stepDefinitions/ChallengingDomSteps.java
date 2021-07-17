@@ -16,6 +16,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Collections;
@@ -31,7 +33,7 @@ public class ChallengingDomSteps extends Generic
     String redButtonTextBeforeClick;
     String greenButtonTextBeforeClick;
 
-
+    private static final Logger LOGGER= LoggerFactory.getLogger(ChallengingDomSteps.class);
 
     @Given("application is launched")
     public void application_is_launched() {
@@ -48,7 +50,7 @@ public class ChallengingDomSteps extends Generic
             options.addArguments("-disable-infobars");
             options.setExperimentalOption("useAutomationExtension", false);
             options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-Automation"));
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver");
+            System.setProperty("webdriver.chrome.driver", findWebDriverLocation(System.getProperty("os.name").toLowerCase()));
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -484,6 +486,7 @@ public class ChallengingDomSteps extends Generic
 
         Generic.scenario = scenario;
         extentTest = extentReports.startTest(scenario.getName());
+        LOGGER.info("Executing Scenario : " +scenario.getName());
         createDirectoryIfDoesNotExist("reports");
     }
 
